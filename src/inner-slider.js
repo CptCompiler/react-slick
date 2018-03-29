@@ -279,12 +279,17 @@ export class InnerSlider extends React.Component {
       }
     }
   }
-  slideHandler = (index) => {
+  slideHandler = (index, dontAnimate=false) => {
     const {
       asNavFor, currentSlide, beforeChange, onLazyLoad, speed, afterChange
     } = this.props
-    let {state, nextState} = slideHandler(
-      {index, ...this.props, ...this.state, trackRef: this.track})
+    let {state, nextState} = slideHandler({
+      index,
+      ...this.props,
+      ...this.state,
+      trackRef: this.track,
+      useCSS: !dontAnimate,
+    })
     if (!state) return
     beforeChange && beforeChange(currentSlide, state.currentSlide)
     let slidesToLoad = state.lazyLoadedList.filter(value =>
@@ -293,6 +298,7 @@ export class InnerSlider extends React.Component {
     this.setState(state, () => {
       asNavFor && asNavFor.innerSlider.state.currentSlide !== currentSlide
         && asNavFor.innerSlider.slideHandler(index)
+      if (!nextState) return
       this.animationEndCallback = setTimeout(() => {
         const{animating, ...firstBatch} = nextState
         this.setState(firstBatch, () => {
@@ -305,11 +311,11 @@ export class InnerSlider extends React.Component {
     })
 
   }
-  changeSlide = (options) => {
+  changeSlide = (options, dontAnimate=false) => {
     const spec = {...this.props, ...this.state}
     let targetSlide = changeSlide(spec, options)
     if (targetSlide !== 0 && !targetSlide) return
-    this.slideHandler(targetSlide)
+    this.slideHandler(targetSlide, dontAnimate)
   }
   clickHandler = e => {
     if (this.clickable === false) {
@@ -382,7 +388,7 @@ export class InnerSlider extends React.Component {
     this.callbackTimers.push(
       setTimeout(() => this.changeSlide({ message: 'next' }), 0))
   }
-  slickGoTo = (slide) => {
+  slickGoTo = (slide, dontAnimate=false) => {
     slide = Number(slide)
     if (isNaN(slide)) return ''
     this.callbackTimers.push(
@@ -390,7 +396,7 @@ export class InnerSlider extends React.Component {
         message: 'index',
         index: slide,
         currentSlide: this.state.currentSlide
-      }), 0)
+      }, dontAnimate), 0)
     )
   }
   play = ()=> {
