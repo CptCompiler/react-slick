@@ -3,10 +3,7 @@
   "version": "0.21.0",
   "description": " React port of slick carousel",
   "main": "./lib",
-  "files": [
-    "dist",
-    "lib"
-  ],
+
   "scripts": {
     "start": "gulp server",
     "build": "gulp clean && gulp sass && gulp copy && webpack",
@@ -87,9 +84,7 @@
     "react-dom": "^0.14.0 || ^15.0.1 || ^16.0.0"
   },
   "jest": {
-    "setupFiles": [
-      "./test-setup.js"
-    ],
+    "setupFiles": ["./test-setup.js"],
     "testPathIgnorePatterns": [
       "/__tests__/scripts.js",
       "/__tests__/testUtils.js"
@@ -99,9 +94,7 @@
   "npmFileMap": [
     {
       "basePath": "/dist/",
-      "files": [
-        "*.js"
-      ]
+      "files": ["*.js"]
     }
   ],
   "bugs": {
