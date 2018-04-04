@@ -178,7 +178,7 @@ var EventHandlers = {
     ) {
       e.preventDefault();
     }
-    console.log(this.props);
+
     var swipeLeft;
     var curLeft, positionOffset;
     var touchObject = this.state.touchObject;
